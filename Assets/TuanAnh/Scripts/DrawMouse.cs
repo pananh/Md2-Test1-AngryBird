@@ -15,7 +15,7 @@ public class DrawMouse : MonoBehaviour
     private const float YObject = 10f;
     private const float YCamera = 50f;
     private const float ZConvert = YCamera - YObject; // Convert Y position from Bird to Main Camera
-    private const float MaxVectorLength = 8.5f;
+    private const float MaxVectorLength = 10f;     // 8.5f la chuan
 
     private Vector3 mouseVector;
     public Vector3 MouseVector
@@ -57,7 +57,7 @@ public class DrawMouse : MonoBehaviour
             isDrawing = true;
 
             Bird.instance.Init(); // Reset Bird position
-
+            UIManager.instance.UpdateStatus("Pull the bow");
         }
         if (GM.instance.NeedMouseVector && isDrawing && !havingMouseVector && (Input.GetMouseButton(0)))
         {

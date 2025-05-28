@@ -13,10 +13,10 @@ public class GM : MonoBehaviour
         set { needMouseVector = value; }
     }
     private int score;
-    public int Score
+    public void AddScore(int value)
     {
-        get { return score; }
-        set { score = value; }
+        score += value;
+        UIManager.instance.UpdateScore(score);
     }
 
 
@@ -31,6 +31,7 @@ public class GM : MonoBehaviour
         needMouseVector = true;
         DrawMouse.instance.Init();
         //Bird.instance.Init();
+        UIManager.instance.Init();
 
     }
 

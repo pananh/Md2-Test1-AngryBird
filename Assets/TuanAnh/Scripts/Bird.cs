@@ -95,12 +95,22 @@ public class Bird : MonoBehaviour
             isFlying = false;
             fliedDestination = true;
 
-            GM.instance.Score += 1; // Tang diem khi va cham voi Pig
+            UIManager.instance.UpdateStatus("Yeah hit PIG");
+            GM.instance.AddScore(1); // Tang diem khi va cham voi Pig
             GM.instance.NeedMouseVector = true; // Cho phep ve lai
             DrawMouse.instance.HavingMouseVector = false; // Reset mouse vector
 
-            Debug.Log("Bird hit an obstacle! " + GM.instance.Score);
+            Destroy(other.gameObject);
+
         }
+
+        if (other.CompareTag("Wall"))
+        {
+            isFlying = false;
+            fliedDestination = true;
+            UIManager.instance.UpdateStatus("Hit wall");
+        }
+
     }
 
 
