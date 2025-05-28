@@ -109,6 +109,8 @@ public class Bird : MonoBehaviour
             isFlying = false;
             fliedDestination = true;
             UIManager.instance.UpdateStatus("Hit wall");
+            GM.instance.NeedMouseVector = true;
+            DrawMouse.instance.HavingMouseVector = false;
         }
 
     }
