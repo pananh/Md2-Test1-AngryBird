@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pig
   - Wall
+  - Ground
   layers:
   - Default
   - TransparentFX

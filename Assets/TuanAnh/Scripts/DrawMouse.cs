@@ -9,25 +9,19 @@ public class DrawMouse : MonoBehaviour
 
     private LineRenderer lineRenderer;
     private Vector3 mousePosStart, mousePosEnd, tempPos;
-    private bool isDrawing;
-    private float minDistance;
+    
 
     private const float YObject = 10f;
     private const float YCamera = 50f;
     private const float ZConvert = YCamera - YObject; // Convert Y position from Bird to Main Camera
-    private const float MaxVectorLength = 10f;     // 8.5f la chuan
+    private const float MaxVectorLength = 10f;
+    private const float minDistance = 0.1f;
 
     private Vector3 mouseVector;
     public Vector3 MouseVector
     {
         get { return mouseVector; }
         set { mouseVector = value; }
-    }
-    private bool havingMouseVector;
-    public bool HavingMouseVector
-    {
-        get { return havingMouseVector; }
-        set { havingMouseVector = value; }
     }
 
 
@@ -38,28 +32,31 @@ public class DrawMouse : MonoBehaviour
 
     public void Init()
     {
-        minDistance = 0.1f; 
         lineRenderer = GetComponent<LineRenderer>();
-        isDrawing = false;
-        havingMouseVector = false;
-        mouseVector = Vector3.zero;
+        //mouseVector = Vector3.zero;
     }
+
 
     void Update()
     {
-        if (GM.instance.NeedMouseVector && !isDrawing && !havingMouseVector && (Input.GetMouseButtonDown(0)))
+        if (Bird.instance.Flying)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
         {
             mousePosStart = Input.mousePosition;
             mousePosStart.z = ZConvert;
             mousePosStart = Camera.main.ScreenToWorldPoint(mousePosStart);
-            lineRenderer.positionCount = 1;
-            lineRenderer.SetPosition(0, mousePosStart);
-            isDrawing = true;
-
+      
             Bird.instance.Init(); // Reset Bird position
             UIManager.instance.UpdateStatus("Pull the bow");
+            lineRenderer.positionCount = 1; // Reset line renderer
+            lineRenderer.SetPosition(0, mousePosStart);
         }
-        if (GM.instance.NeedMouseVector && isDrawing && !havingMouseVector && (Input.GetMouseButton(0)))
+
+        if (Input.GetMouseButton(0))
         {
             mousePosEnd = Input.mousePosition;
             mousePosEnd.z = ZConvert;
@@ -72,25 +69,20 @@ public class DrawMouse : MonoBehaviour
             }
         }
 
-        if (GM.instance.NeedMouseVector && isDrawing && !havingMouseVector && (Input.GetMouseButtonUp(0)))
+        if (Input.GetMouseButtonUp(0))
         {
             mousePosEnd = Input.mousePosition;
             mousePosEnd.z = ZConvert;
             mousePosEnd = Camera.main.ScreenToWorldPoint(mousePosEnd);
             tempPos = mousePosEnd - mousePosStart;
-            if (tempPos.sqrMagnitude > minDistance)
-            {
-                lineRenderer.SetPosition(1, mousePosEnd);
-            }
+           
             mouseVector = mousePosEnd - mousePosStart;
             if (mouseVector.magnitude > MaxVectorLength)
             {
                 mouseVector = mouseVector.normalized * MaxVectorLength;
             }
-
-            isDrawing = false;
-            
-            havingMouseVector = true;
+            lineRenderer.positionCount = 0; // Clear line renderer
+            Bird.instance.StartFly();
         }
 
     }

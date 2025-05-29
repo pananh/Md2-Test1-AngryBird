@@ -9,18 +9,14 @@ public class Bird : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
 
     private Vector3 direction;
-    public Vector3 Direction
-    {
-        get { return direction; }
-        set { direction = value; }
-    }
+   
     private float speed;
    
-    private bool startFlying, isFlying, fliedDestination;
-    public bool StartFlying
+    private bool  isFlying;
+    public bool Flying
     {
-        get { return startFlying; }
-        set { startFlying = value; }
+        get { return isFlying; }
+        set { isFlying = value; }
     }
 
     private Vector3 startPos, endPos;
@@ -32,34 +28,34 @@ public class Bird : MonoBehaviour
         instance = this;
         startPos = new Vector3(-30, 10, -15);  // Luc xuat hien dau tien
         minDistance = 0.1f;
-        lineRenderer.positionCount = 0;
     }
-
     public void Init()
     {
-        fliedDestination = false;
         isFlying = false;
-        startFlying = false;
+        lineRenderer.positionCount = 0;
         transform.position = startPos;
     }
 
-    // Update is called once per frame
+    public void StartFly()
+    {
+        isFlying = true;
+        direction = DrawMouse.instance.MouseVector;
+
+        Debug.Log("Direction: " + direction);
+
+        startTime = Time.time;
+        speed = direction.magnitude;
+        endPos = startPos + direction * speed;
+        totalTime = speed / 5;
+        lineRenderer.positionCount = 1;
+        lineRenderer.SetPosition(0, startPos);
+
+    }
+
     void Update()
     {
-        if (startFlying)
-        {
-            startTime = Time.time;
-            speed = direction.magnitude;
-            endPos = startPos + direction * speed;
-            totalTime = speed/5;
 
-            startFlying = false;
-            isFlying = true;
-            lineRenderer.positionCount = 1;
-            lineRenderer.SetPosition(0, startPos);
-
-        }
-        if (isFlying && !fliedDestination)
+        if (isFlying)
         {
             BirdFlying();
         }
@@ -69,48 +65,38 @@ public class Bird : MonoBehaviour
 
     public void BirdFlying()
     {
-        Vector3 currentPos = Vector3.Slerp(startPos, endPos, Mathf.Min((Time.time - startTime) / totalTime,1));
+        Vector3 currentPos = Vector3.Slerp(startPos, endPos, Mathf.Min((Time.time - startTime) / totalTime, 1));
         if (Vector3.Distance(currentPos, endPos) < minDistance)
         {
             isFlying = false;
-            fliedDestination = true;
             currentPos = endPos;
-            
-            GM.instance.NeedMouseVector = true; // Cho phep ve lai
-            DrawMouse.instance.HavingMouseVector = false; // Reset mouse vector
-      
         }
+
         transform.position = currentPos;
+
         lineRenderer.positionCount++;
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, currentPos);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Bird collided with: " + other.name);
-
         if (other.CompareTag("Pig"))
         {
-           
             isFlying = false;
-            fliedDestination = true;
-
             UIManager.instance.UpdateStatus("Yeah hit PIG");
             GM.instance.AddScore(1); // Tang diem khi va cham voi Pig
-            GM.instance.NeedMouseVector = true; // Cho phep ve lai
-            DrawMouse.instance.HavingMouseVector = false; // Reset mouse vector
-
             Destroy(other.gameObject);
-
         }
 
-        if (other.CompareTag("Wall"))
+        else if (other.CompareTag("Wall"))
         {
             isFlying = false;
-            fliedDestination = true;
             UIManager.instance.UpdateStatus("Hit wall");
-            GM.instance.NeedMouseVector = true;
-            DrawMouse.instance.HavingMouseVector = false;
+        }
+        else if (other.CompareTag("Ground"))
+        {
+            isFlying = false;
+            UIManager.instance.UpdateStatus("Hit ground");
         }
 
     }

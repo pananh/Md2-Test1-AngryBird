@@ -311,11 +311,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6522145629188337979, guid: 02dd4486e46f0bb41aed22639052b0e1, type: 3}
   m_PrefabInstance: {fileID: 258259319}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &593790125 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5565844240515816831, guid: bfcf5d884cc360c49b92ae1b05b4ddc9, type: 3}
-  m_PrefabInstance: {fileID: 8477732109447775003}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &700434655
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +585,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalPosition: {x: -1, y: 50, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -615,7 +610,7 @@ GameObject:
   - component: {fileID: 1065049258}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -635,7 +630,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -875,7 +870,7 @@ GameObject:
   - component: {fileID: 1444188339}
   - component: {fileID: 1444188338}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Small Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -889,13 +884,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444188336}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0056968923, y: 0.3503803, z: -0.01522616, w: 0.93646646}
-  m_LocalPosition: {x: -1.38, y: 0, z: -2.78}
+  m_LocalRotation: {x: 0.14790343, y: 0.15550365, z: -0.031311806, w: 0.97619814}
+  m_LocalPosition: {x: -18.8, y: 25, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 593790125}
-  m_LocalEulerAnglesHint: {x: 0, y: 41.027, z: -1.863}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 17.368, y: 17.963, z: -0.909}
 --- !u!81 &1444188338
 AudioListener:
   m_ObjectHideFlags: 0
@@ -937,7 +932,7 @@ Camera:
     height: 0.3
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 84
+  field of view: 85
   orthographic: 0
   orthographic size: 5
   m_Depth: 1
@@ -1041,7 +1036,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.52136713
+        value: 0.32307917
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1935,16 +1930,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6884503554222435384, guid: bfcf5d884cc360c49b92ae1b05b4ddc9, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.52820015
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087648075918016435, guid: bfcf5d884cc360c49b92ae1b05b4ddc9, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8600233554468295124, guid: bfcf5d884cc360c49b92ae1b05b4ddc9, type: 3}
       propertyPath: m_Name
       value: Bird
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5565844240515816831, guid: bfcf5d884cc360c49b92ae1b05b4ddc9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1444188337}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfcf5d884cc360c49b92ae1b05b4ddc9, type: 3}
 --- !u!1660057539 &9223372036854775807
@@ -1952,6 +1952,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
+  - {fileID: 1444188337}
   - {fileID: 705507995}
   - {fileID: 1065049261}
   - {fileID: 8477732109447775003}
